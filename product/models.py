@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.contrib.auth import get_user_model
 from category.models import Category
@@ -10,6 +11,7 @@ class Product(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    description = RichTextField(blank=True, null=True)
     image = models.ImageField(upload_to='images')
     price = models.DecimalField(max_digits=9, decimal_places=2)
     stock = models.CharField(max_length=50, choices=STATUS_CHOICES)
