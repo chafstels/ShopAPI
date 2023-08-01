@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
@@ -46,12 +46,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'twilio',
     "corsheaders",
+    "ckeditor",
 
     #myapp
     'account',
     'category',
     'product',
     'rating',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +72,7 @@ ROOT_URLCONF = "shopAPI.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'order/templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -166,3 +168,13 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 TWILIO_SID = 'AC604586bbcc9ab37b1bd4655bfabc9508'
 TWILIO_AUTH_TOKEN = '4c808935bebfe92c7dc62b96f0b113c1'
 TWILIO_SENDER_PHONE = '+12176347024'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"  # Optional: define the upload path for media files
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'  # Optional: provide the URL to jQuery
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # You can customize the toolbar as per your requirements
+        'height': 300,
+        'width': '100%',
+    },
+}
