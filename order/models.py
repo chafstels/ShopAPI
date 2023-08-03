@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 from order.send_email import sender_order_notification
 from product.models import Product
-
+from shopAPI.tasks import sender_order_notification_task
 User = get_user_model()
 
 
@@ -40,4 +40,5 @@ class Order(models.Model):
 @receiver(post_save, sender=Order)
 def order_post_save(sender, instance, created, *args, **kwargs):
     if created:
-        sender_order_notification(instance.user.email, instance.id)
+        # sender_order_notification(instance.user.email, instance.id)
+        sender_order_notification_task.delay(instance.user.email, instance.id)
