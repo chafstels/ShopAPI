@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .send_email import send_activation_sms
+from shopAPI.tasks import send_activation_sms_task
 
 User = get_user_model()
 
@@ -78,6 +79,7 @@ class RegistrationPhoneSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
-        send_activation_sms(user.phone_number, user.activation_code)
+        # send_activation_sms(user.phone_number, user.activation_code)
+        send_activation_sms_task.delay(user.phone_number, user.activation_code)
         return user
 
